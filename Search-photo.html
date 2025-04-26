@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>جستجوی تصویر با Pixabay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tabler CSS -->
+    <link href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet">
+    <!-- Tabler Icons -->
+    <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="theme-light">
+    <div class="page">
+        <div class="container py-4">
+            <h1 class="text-center mb-4">جستجوی آنلاین تصاویر با Pixabay</h1>
+
+            <div class="input-icon mb-3">
+                <span class="input-icon-addon">
+                    <i class="ti ti-search"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control" placeholder="عبارت جستجو...">
+            </div>
+
+            <div class="text-center mb-4">
+                <button id="searchButton" class="btn btn-primary">
+                    <i class="ti ti-search"></i> جستجو
+                </button>
+            </div>
+
+            <div id="results" class="row row-cards mt-4"></div>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        const API_KEY = 'اینجا-کلید-خودت-را-بگذار'; // <<<<<< کلید API خودت را جایگزین کن
+        const API_URL = 'https://pixabay.com/api/';
+
+        $('#searchButton').on('click', function() {
+            let query = $('#searchInput').val().trim();
+            if (query === '') {
+                alert('لطفاً عبارتی برای جستجو وارد کنید.');
+                return;
+            }
+
+            $('#results').empty().html('<div class="text-center my-4">در حال بارگذاری...</div>');
+
+            $.ajax({
+                url: API_URL,
+                method: 'GET',
+                data: {
+                    key: API_KEY,
+                    q: query,
+                    image_type: 'photo',
+                    per_page: 20,
+                    safesearch: true
+                },
+                success: function(response) {
+                    $('#results').empty();
+                    if (response.hits.length > 0) {
+                        $.each(response.hits, function(index, image) {
+                            $('#results').append(`
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <img src="${image.webformatURL}" class="card-img-top" alt="${image.tags}">
+                                        <div class="card-body">
+                                            <h4 class="card-title">${image.user}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        $('#results').html('<div class="text-center my-4 text-muted">هیچ تصویری پیدا نشد.</div>');
+                    }
+                },
+                error: function() {
+                    $('#results').html('<div class="text-center my-4 text-danger">خطا در دریافت داده‌ها.</div>');
+                }
+            });
+        });
+
+        // فعال کردن جستجو با Enter
+        $('#searchInput').keypress(function(e) {
+            if (e.which === 13) {
+                $('#searchButton').click();
+            }
+        });
+    });
+    </script>
+</body>
+</html>
