@@ -65,4 +65,4 @@ In no event shall the Contributors be liable for any damages arising from the us
 
 You may accept additional obligations or liability only on your own behalf.
 
-[نسخه فارسی پروانه آپاچی](License-fa.md)
+- [نسخه فارسی پروانه آپاچی](LICENSE-fa.md)
