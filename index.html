@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست پروژه‌های اقتصادی</title>
+    <!-- Tabler CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/css/tabler.min.css" rel="stylesheet">
+    <!-- Tabler Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        .project-item {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .project-item:hover {
+            background-color: #f1f5f9;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">لیست پروژه‌های اقتصادی</h1>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="list-group" id="project-list">
+                            <!-- پروژه‌ها به صورت داینامیک با jQuery اضافه می‌شوند -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // لیست پروژه‌ها
+            const projects = [
+                { name: "فروشگاه آنلاین پوشاک", description: "فروشگاه آنلاین برای عرضه پوشاک با امکان فیلتر سایز و رنگ.", budget: "50 میلیون تومان" },
+                { name: "اپلیکیشن مدیریت مالی شخصی", description: "اپلیکیشن وب برای مدیریت درآمدها و هزینه‌ها.", budget: "30 میلیون تومان" },
+                { name: "سامانه رزرو آنلاین رستوران", description: "سیستم رزرو میز با امکان مشاهده منو.", budget: "40 میلیون تومان" },
+                { name: "پلتفرم آموزش آنلاین", description: "پلتفرم ارائه دوره‌های آموزشی با ویدیو.", budget: "60 میلیون تومان" },
+                { name: "سایت فریلنسری", description: "پلتفرم اتصال فریلنسرها و کارفرمایان.", budget: "70 میلیون تومان" },
+                { name: "وبلاگ آشپزی", description: "وبلاگ دستور پخت غذا با قابلیت جستجو.", budget: "20 میلیون تومان" },
+                { name: "سامانه نوبت‌دهی پزشکی", description: "سیستم رزرو نوبت پزشکان با تقویم آنلاین.", budget: "45 میلیون تومان" },
+                { name: "فروشگاه کتاب دیجیتال", description: "فروش کتاب‌های الکترونیکی با پیش‌نمایش.", budget: "35 میلیون تومان" },
+                { name: "پلتفرم مدیریت پروژه", description: "ابزار مدیریت وظایف و همکاری تیمی.", budget: "55 میلیون تومان" },
+                { name: "سایت رزومه‌ساز آنلاین", description: "ابزار ساخت رزومه با قالب‌های متنوع.", budget: "25 میلیون تومان" },
+                { name: "فروشگاه آنلاین گل", description: "فروش آنلاین گل با امکان ارسال سریع.", budget: "30 میلیون تومان" },
+                { name: "پلتفرم مشاوره آنلاین", description: "سیستم مشاوره ویدئویی با متخصصان.", budget: "65 میلیون تومان" },
+                { name: "سایت حراجی آنلاین", description: "پلتفرم برگزاری حراج‌های آنلاین.", budget: "50 میلیون تومان" },
+                { name: "وبلاگ گردشگری", description: "وبلاگ معرفی مقاصد گردشگری با نقشه.", budget: "20 میلیون تومان" },
+                { name: "سامانه مدیریت انبار", description: "سیستم مدیریت موجودی انبار.", budget: "40 میلیون تومان" },
+                { name: "اپلیکیشن یادآور وظایف", description: "اپلیکیشن وب برای یادآوری کارها.", budget: "25 میلیون تومان" },
+                { name: "سایت فروش بلیط رویداد", description: "فروش بلیط کنسرت و رویدادها.", budget: "45 میلیون تومان" },
+                { name: "پلتفرم اشتراک‌گذاری فایل", description: "سیستم آپلود و دانلود امن فایل.", budget: "35 میلیون تومان" },
+                { name: "سامانه نظرسنجی آنلاین", description: "ابزار ساخت و تحلیل نظرسنجی‌ها.", budget: "30 میلیون تومان" },
+                { name: "وب‌سایت نمونه‌کار عکاسی", description: "گالری آنلاین برای نمایش عکس‌ها.", budget: "20 میلیون تومان" },
+                { name: "اپلیکیشن رژیم غذایی", description: "اپلیکیشن برنامه‌ریزی رژیم غذایی.", budget: "40 میلیون تومان" },
+                { name: "سایت فروش صنایع دستی", description: "فروش آنلاین محصولات دست‌ساز.", budget: "35 میلیون تومان" },
+                { name: "پلتفرم مدیریت رویداد", description: "سیستم برنامه‌ریزی و مدیریت رویدادها.", budget: "50 میلیون تومان" },
+                { name: "سایت رزرو تور گردشگری", description: "رزرو آنلاین تورهای مسافرتی.", budget: "45 میلیون تومان" },
+                { name: "وبلاگ تناسب اندام", description: "وبلاگ برنامه‌های ورزشی و تغذیه.", budget: "20 میلیون تومان" }
+            ];
+
+            // افزودن پروژه‌ها به لیست
+            projects.forEach((project, index) => {
+                const projectHtml = `
+                    <div class="list-group-item project-item" data-index="${index}">
+                        <div class="d-flex align-items-center">
+                            <i class="ti ti-briefcase me-2"></i>
+                            <h5 class="mb-0">${project.name}</h5>
+                        </div>
+                        <div class="details" id="details-${index}">
+                            <p><strong>توضیحات:</strong> ${project.description}</p>
+                            <p><strong>بودجه تخمینی:</strong> ${project.budget}</p>
+                            <button class="btn btn-primary btn-sm show-more">
+                                <i class="ti ti-info-circle me-1"></i> نمایش بیشتر
+                            </button>
+                        </div>
+                    </div>
+                `;
+                $("#project-list").append(projectHtml);
+            });
+
+            // مدیریت کلیک برای نمایش/مخفی کردن جزئیات
+            $(".project-item").on("click", function() {
+                const index = $(this).data("index");
+                const details = $(`#details-${index}`);
+                details.slideToggle(300);
+            });
+
+            // مدیریت دکمه نمایش بیشتر
+            $(".show-more").on("click", function(e) {
+                e.stopPropagation(); // جلوگیری از فعال شدن کلیک والد
+                const projectName = $(this).closest(".project-item").find("h5").text();
+                alert(`اطلاعات بیشتر برای پروژه: ${projectName}\nدر اینجا می‌توانید جزئیات بیشتری مثل تکنولوژی‌های مورد نیاز یا دمو را نمایش دهید.`);
+            });
+        });
+    </script>
+</body>
+</html
