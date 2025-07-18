@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروژه‌های وب اقتصادی</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <style>
+        .project-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .details {
+            display: none;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 0 0 5px 5px;
+        }
+        .active .details {
+            display: block;
+        }
+    </style>
+</head>
+<body class="theme-light">
+    <div class="page">
+        <header class="navbar navbar-expand-md navbar-light d-print-none">
+            <div class="container-xl">
+                <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                    پروژه‌های وب اقتصادی
+                </h1>
+            </div>
+        </header>
+        <div class="page-wrapper">
+            <div class="container-xl">
+                <div class="row row-cards">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-title">لیست پروژه‌ها</h2>
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="projects-container">
+                                    <!-- پروژه‌ها اینجا قرار می‌گیرند -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const projects = [
+                {
+                    id: 1,
+                    title: "سیستم مدیریت مالی شخصی",
+                    icon: "ti-wallet",
+                    description: "برنامه‌ای برای مدیریت درآمد و هزینه‌های شخصی با نمودارهای تحلیلی",
+                    features: ["ردیابی هزینه‌ها", "دسته‌بندی مخارج", "گزارش‌های ماهانه", "تنظیم بودجه"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 2,
+                    title: "فروشگاه اینترنتی کوچک",
+                    icon: "ti-shopping-cart",
+                    description: "فروشگاه آنلاین برای کسب‌وکارهای کوچک با امکانات پایه",
+                    features: ["مدیریت محصولات", "سبد خرید", "درگاه پرداخت", "مدیریت سفارشات"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 3,
+                    title: "سامانه رزرواسیون آنلاین",
+                    icon: "ti-calendar",
+                    description: "سیستم رزرو آنلاین برای رستوران‌ها، سالن‌ها و خدمات مختلف",
+                    features: ["تقویم رزرو", "تایید آنلاین", "اعلان‌های خودکار", "مدیریت ظرفیت"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 4,
+                    title: "پلتفرم اشتراک‌گذاری فایل",
+                    icon: "ti-cloud-upload",
+                    description: "سیستم ساده برای آپلود و اشتراک‌گذاری فایل‌ها",
+                    features: ["آپلود فایل", "لینک اشتراک", "مدیریت دسترسی", "حذف خودکار"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 5,
+                    title: "سیستم مدیریت محتوای ساده",
+                    icon: "ti-notes",
+                    description: "CMS سبک برای وبسایت‌های کوچک و شخصی",
+                    features: ["ویرایشگر متن", "مدیریت صفحات", "قالب‌های ساده", "سئو پایه"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 6,
+                    title: "اپلیکیشن لیست کارها",
+                    icon: "ti-checklist",
+                    description: "برنامه مدیریت وظایف روزانه با قابلیت‌های ساده",
+                    features: ["ایجاد وظایف", "اولویت‌بندی", "یادآوری", "دسته‌بندی"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 7,
+                    title: "سیستم بلاگ شخصی",
+                    icon: "ti-pencil",
+                    description: "پلتفرم وبلاگ نویسی ساده برای افراد",
+                    features: ["نوشتن پست", "دسته‌بندی", "نظرات", "آرشیو"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 8,
+                    title: "پلتفرم استخدام فریلنسرها",
+                    icon: "ti-briefcase",
+                    description: "وبسایت ارتباط فریلنسرها با کارفرمایان",
+                    features: ["پروفایل حرفه‌ای", "ارسال پیشنهاد", "سیستم پرداخت", "نمونه کار"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 9,
+                    title: "سیستم نظرسنجی آنلاین",
+                    icon: "ti-chart-pie",
+                    description: "ابزار ایجاد نظرسنجی‌های آنلاین",
+                    features: ["سوالات چندگزینه‌ای", "نتایج لحظه‌ای", "اشتراک‌گذاری لینک", "تحلیل داده"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 10,
+                    title: "سامانه مدیریت مشتریان",
+                    icon: "ti-users",
+                    description: "سیستم CRM ساده برای کسب‌وکارهای کوچک",
+                    features: ["مدیریت مخاطبین", "پیگیری تعاملات", "یادآوری پیگیری", "گزارش‌گیری"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 11,
+                    title: "پلتفرم آموزش آنلاین",
+                    icon: "ti-school",
+                    description: "سیستم آموزش الکترونیکی با امکانات پایه",
+                    features: ["آپلود محتوا", "پخش ویدیو", "تست‌های آنلاین", "گواهی پایان دوره"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 12,
+                    title: "سیستم کوپن و تخفیف",
+                    icon: "ti-discount",
+                    description: "پلتفرم مدیریت و توزیع کوپن‌های تخفیف",
+                    features: ["ایجاد کوپن", "محدودیت استفاده", "ردیابی استفاده", "انقضا خودکار"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 13,
+                    title: "اپلیکیشن ردیابی تناسب اندام",
+                    icon: "ti-heartbeat",
+                    description: "برنامه ثبت فعالیت‌های ورزشی و تغذیه",
+                    features: ["ثبت تمرینات", "پیگیری وزن", "نمودار پیشرفت", "هدف‌گذاری"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 14,
+                    title: "سیستم مدیریت انبار ساده",
+                    icon: "ti-package",
+                    description: "نرم‌افزار مدیریت موجودی برای کسب‌وکارهای کوچک",
+                    features: ["ردیابی موجودی", "هشدار کمبود", "گزارش ورود و خروج", "مدیریت محصولات"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 15,
+                    title: "پلتفرم اشتراک‌گذاری رویدادها",
+                    icon: "ti-calendar-event",
+                    description: "وبسایت معرفی و ثبت رویدادهای محلی",
+                    features: ["ایجاد رویداد", "جستجوی رویداد", "ثبت نام آنلاین", "اشتراک‌گذاری"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 16,
+                    title: "سیستم مدیریت پروژه ساده",
+                    icon: "ti-clipboard",
+                    description: "ابزار مدیریت وظایف و پروژه‌های تیمی",
+                    features: ["ایجاد پروژه", "تخصیص وظایف", "پیگیری پیشرفت", "چت تیمی"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 17,
+                    title: "سامانه رزرو هتل کوچک",
+                    icon: "ti-home",
+                    description: "سیستم رزرو آنلاین برای هتل‌ها و اقامتگاه‌های کوچک",
+                    features: ["نمایش اتاق‌ها", "رزرو آنلاین", "مدیریت تاریخ", "تایید خودکار"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 18,
+                    title: "پلتفرم معرفی رستوران‌ها",
+                    icon: "ti-tools-kitchen",
+                    description: "وبسایت معرفی رستوران‌های محلی با منو و نظرات",
+                    features: ["پروفایل رستوران", "نمایش منو", "سیستم امتیازدهی", "جستجوی موقعیت"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 19,
+                    title: "سیستم مدیریت کتابخانه",
+                    icon: "ti-book",
+                    description: "نرم‌افزار مدیریت امانت کتاب برای کتابخانه‌های کوچک",
+                    features: ["مدیریت کتاب‌ها", "سیستم امانت", "هشدار بازگشت", "جستجوی کتاب"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 20,
+                    title: "اپلیکیشن یادگیری زبان",
+                    icon: "ti-language",
+                    description: "برنامه آموزش زبان با فلش کارت و تمرینات ساده",
+                    features: ["فلش کارت", "تمرین تلفظ", "آزمون‌های کوتاه", "پیگیری پیشرفت"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 21,
+                    title: "سامانه تبلیغات محلی",
+                    icon: "ti-ad",
+                    description: "پلتفرم خرید و فروش آگهی‌های محلی",
+                    features: ["ثبت آگهی", "جستجوی آگهی", "مدیریت دسته‌بندی", "تماس مستقیم"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 22,
+                    title: "سیستم مدیریت تورهای گردشگری",
+                    icon: "ti-plane",
+                    description: "نرم‌افزار مدیریت تورهای مسافرتی برای آژانس‌های کوچک",
+                    features: ["مدیریت تورها", "ثبت نام مسافر", "مدیریت ظرفیت", "سیستم پرداخت"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 23,
+                    title: "پلتفرم مشاوره آنلاین",
+                    icon: "ti-message",
+                    description: "وبسایت ارتباط مشتریان با مشاوران در حوزه‌های مختلف",
+                    features: ["رزرو جلسه", "چت آنلاین", "پرداخت آنلاین", "مدیریت زمان"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 24,
+                    title: "سیستم مدیریت باشگاه ورزشی",
+                    icon: "ti-barbell",
+                    description: "نرم‌افزار مدیریت اعضا و برنامه‌های باشگاه‌های ورزشی",
+                    features: ["مدیریت اعضا", "برنامه تمرینی", "پیگیری حضور", "سیستم پرداخت"],
+                    cost: "اقتصادی"
+                },
+                {
+                    id: 25,
+                    title: "اپلیکیشن جمع‌سپاری ایده‌ها",
+                    icon: "ti-bulb",
+                    description: "پلتفرم اشتراک‌گذاری و رأی‌گیری برای ایده‌های جدید",
+                    features: ["ثبت ایده", "کمپین حمایت", "سیستم نظرسنجی", "ارتباط با حامیان"],
+                    cost: "اقتصادی"
+                }
+            ];
+
+            // نمایش پروژه‌ها
+            projects.forEach(project => {
+                const projectHtml = `
+                    <div class="col">
+                        <div class="card project-card" data-id="${project.id}">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <span class="ti ${project.icon} me-2" style="font-size: 2rem;"></span>
+                                    <div>
+                                        <h3 class="card-title mb-1">${project.title}</h3>
+                                        <div class="text-muted">${project.description}</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="badge bg-green-lt">${project.cost}</span>
+                                </div>
+                            </div>
+                            <div class="details">
+                                <h4>ویژگی‌های اصلی:</h4>
+                                <ul>
+                                    ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+                                <button class="btn btn-primary w-100 mt-2 show-more" data-id="${project.id}">
+                                    نمایش جزئیات بیشتر
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#projects-container').append(projectHtml);
+            });
+
+            // مدیریت کلیک روی کارت پروژه
+            $('.project-card').click(function(e) {
+                // جلوگیری از اجرای رویداد وقتی روی دکمه کلیک می‌شود
+                if ($(e.target).hasClass('show-more')) {
+                    return;
+                }
+                
+                const card = $(this).closest('.project-card');
+                card.toggleClass('active');
+                $('.project-card').not(card).removeClass('active');
+            });
+
+            // مدیریت کلیک روی دکمه جزئیات بیشتر
+            $('body').on('click', '.show-more', function() {
+                const projectId = $(this).data('id');
+                const project = projects.find(p => p.id === projectId);
+                alert(`جزئیات بیشتر برای پروژه: ${project.title}\n\n${project.features.join('\n')}`);
+            });
+        });
+    </script>
+</body>
+</html>
